@@ -105,4 +105,4 @@ youmind call createNote '{"title":"First Note","boardId":"..."}'
 | Option | Description |
 |--------|-------------|
 | `--api-key <key>` | API key (overrides `YOUMIND_API_KEY` env var) |
-| `--endpoint <url>` | API endpoint (default: `https://api.youmind.com`) |
+| `--endpoint <url>` | API endpoint (default: `https://youmind.com`) |
