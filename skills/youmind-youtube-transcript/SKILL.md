@@ -22,7 +22,12 @@ platforms:
   - roo
 allowed-tools:
   - Bash(youmind *)
+  - Bash(YOUMIND_API_KEY=* youmind *)
+  - Bash(YOUMIND_ENV=* YOUMIND_API_KEY_PREVIEW=* youmind *)
   - Bash(npm install -g @youmind-ai/cli)
+  - Bash(export YOUMIND_API_KEY=*)
+  - Bash(export YOUMIND_ENV=*)
+  - Bash(export YOUMIND_API_KEY_PREVIEW=*)
 ---
 
 # YouTube Transcript Extractor
