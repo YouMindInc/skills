@@ -20,6 +20,13 @@ platforms:
   - opencode
   - goose
   - roo
+metadata:
+  openclaw:
+    emoji: "📝"
+    primaryEnv: YOUMIND_API_KEY
+    requires:
+      anyBins: ["youmind", "npm"]
+      env: ["YOUMIND_API_KEY"]
 allowed-tools:
   - Bash(youmind *)
   - Bash(YOUMIND_API_KEY=* youmind *)
