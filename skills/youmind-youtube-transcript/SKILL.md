@@ -92,15 +92,19 @@ Extract `id` as `materialId` from each response.
 
 **YouMind link format**: `https://<endpoint>/boards/<boardId>?material-id=<materialId>` (where endpoint is `youmind.com` or `preview.youmind.com`). Do NOT use `https://youmind.com/material/<id>` — that URL does not work.
 
-**Immediately after each create**, tell the user (in their language) and give the link:
-- Single: "✅ Video saved to YouMind! You can view it here: `<link>`. Extracting transcript now..."
-- Batch: after all creates, list all links: "✅ N videos saved to YouMind! [title1]: `<link1>`, [title2]: `<link2>` ... Extracting transcripts now..."
+**⚠️ MANDATORY: Immediately send a message to the user with the YouMind link.** Do this NOW, before polling. Do not wait for the transcript to be ready. The user needs something to click on right away.
 
-**In batch mode**: fire all `createMaterialByUrl` calls sequentially first, show all links, then poll all of them together.
+Message template (in user's language):
+- Single: "✅ Video saved to YouMind! View it here: <link>\n\nExtracting transcript — usually 10-20 seconds..."
+- Batch: "✅ N videos saved!\n• [title1]: <link1>\n• [title2]: <link2>\n\nExtracting transcripts..."
 
-**⚡ Background processing**: Polling takes 10-60 seconds. See [references/long-running-tasks.md](references/long-running-tasks.md) for the subagent pattern. Suggest running the polling step in the background so the user's session stays responsive.
+**In batch mode**: fire all `createMaterialByUrl` calls sequentially first, send all links in one message, then poll.
 
 ### Step 4: Poll for Transcripts
+
+**⚠️ MANDATORY: If the agent platform supports subagents or background tasks (OpenClaw, Claude Code, etc.), spawn a subagent/background task for the polling + extraction work. Return control to the user immediately. The subagent sends the result when done.**
+
+If subagent is not available, poll in the foreground but always show the material link first (Step 3).
 
 For each material, poll until ready:
 
@@ -165,9 +169,9 @@ This command does everything in one step: parse JSON, extract fields, format mar
 
 **File naming**: `transcript-<video-title-slug>.md` — derived from the video title, not the video ID. Examples: `transcript-never-gonna-give-you-up.md`, `transcript-一口气了解韩国经济.md`.
 
-**Delivery**: If the user is on a messaging platform (Telegram, Slack, Discord, etc.), send the transcript file as an attachment so they can download it directly.
+**⚠️ MANDATORY: Send the transcript file as an attachment.** The transcript is too long to display inline. Always write the file first, then send it as an attachment (use the platform's file upload capability). Include a brief summary message alongside the file — title, language, word count. Do NOT paste the entire transcript as text in the chat.
 
-In batch mode, show a final summary table:
+In batch mode, send each transcript file as a separate attachment, then show a final summary table:
 
 ```
 | # | Video | Language | Words | File |
