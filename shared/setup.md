@@ -14,20 +14,16 @@ If not found, install it first before proceeding.
 
 ## Authentication
 
-Check if `YOUMIND_API_KEY` is already set in the environment:
+Check if `YOUMIND_API_KEY` is already set (without exposing the value):
 
 ```bash
-echo $YOUMIND_API_KEY
+[ -n "$YOUMIND_API_KEY" ] && echo "YOUMIND_API_KEY is set" || echo "YOUMIND_API_KEY is not set"
 ```
 
 If set, proceed to the workflow.
 
 If not set, tell the user to configure it themselves (do NOT ask them to paste the key in chat):
 
-> "You need a YouMind API key. Get one free at https://youmind.com/settings/api-keys then set it in your environment:
->
-> `export YOUMIND_API_KEY=sk-ym-your-key-here`
->
-> Or add it to your `.env` file. Let me know when it's ready!"
+> "You need a YouMind API key. Get one free at https://youmind.com/settings/api-keys then set it in your shell or `.env` file. Let me know when it's ready!"
 
-Wait for confirmation, then verify with `echo $YOUMIND_API_KEY` before proceeding.
+Wait for confirmation, then verify again (without echoing the key) before proceeding.
