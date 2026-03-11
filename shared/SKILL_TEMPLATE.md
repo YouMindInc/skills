@@ -2,6 +2,14 @@
 
 Copy this template when creating a new YouMind skill. Replace all `<placeholders>`.
 
+## Naming Rules
+
+- Skill name: `youmind-<feature>` (kebab-case, e.g. `youmind-youtube-transcript`)
+- **Max 32 characters** after sanitization (hyphens → underscores, only `a-z0-9_`)
+- Slash command on Telegram/Discord: `/youmind_<feature>` (auto-converted)
+- Keep it short and searchable. The slug is your #1 SEO lever on ClawHub.
+- New skills must be loaded after `gateway restart` — hot-reload is not supported.
+
 ## Directory Structure
 
 ```
