@@ -102,7 +102,7 @@ Message template (in user's language):
 
 ### Step 4: Poll for Transcripts
 
-**⚠️ MANDATORY: If the agent platform supports subagents or background tasks (OpenClaw, Claude Code, etc.), spawn a subagent/background task for the polling + extraction work. Return control to the user immediately. The subagent sends the result when done.**
+**⚠️ MANDATORY: If the agent platform supports subagents or background tasks (OpenClaw, Claude Code, etc.), spawn a subagent/background task for the polling + extraction work. Return control to the user immediately. The subagent sends the result when done.** See [references/long-running-tasks.md](references/long-running-tasks.md) for the full pattern.
 
 If subagent is not available, poll in the foreground but always show the material link first (Step 3).
 
