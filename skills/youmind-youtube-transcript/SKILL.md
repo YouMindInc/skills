@@ -26,7 +26,7 @@ metadata:
     primaryEnv: YOUMIND_API_KEY
     requires:
       anyBins: ["youmind", "npm"]
-      env: ["YOUMIND_API_KEY"]
+      env: ["YOUMIND_API_KEY", "YOUMIND_ENV", "YOUMIND_API_KEY_PREVIEW"]
 allowed-tools:
   - Bash(youmind *)
   - Bash(npm install -g @youmind-ai/cli)
