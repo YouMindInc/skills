@@ -12,6 +12,13 @@ Copy this template when creating a new YouMind skill. Replace all `<placeholders
 - **Never ask users to paste API keys in chat** — keys appear in chat history. Guide users to set env vars themselves, agent only verifies.
 - **Must declare `metadata.openclaw`** with `primaryEnv`, `requires.env`, `requires.anyBins` — otherwise OpenClaw Code Insight flags as suspicious ("metadata omits requirements"). See apify skill as reference.
 
+## Language Rules
+
+- **SKILL.md must be written entirely in English** — no Chinese, Japanese, or other non-English text in instructions or examples. (Multilingual trigger words in `description` are OK for search matching.)
+- **Agent responses must always be in the user's language.** English in SKILL.md is only the source; the agent translates all user-facing messages at runtime.
+- Error messages, status updates, prompts, and summaries — all must adapt to the user's input language.
+- Example messages in SKILL.md should be written in English as templates. Add a note like: `(Adapt to user's language)` after each template.
+
 ## Directory Structure
 
 ```
