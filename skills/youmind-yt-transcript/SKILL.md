@@ -140,7 +140,7 @@ Once `type` is `"video"`, inspect the `transcript` field:
 | Outcome | Condition | Action |
 |---------|-----------|--------|
 | ✅ Transcript ready | `type` is `"video"` AND `transcript.contents[0].status === "completed"` | Go to Step 5 |
-| ❌ No transcript available | `type` is `"video"` but `transcript` is null/empty, or `transcript.contents` is an empty array | Tell user: "This video doesn't have subtitles/captions available. Most YouTube videos have auto-generated captions, but some (e.g., pure music or very old videos) may not. You can still view the saved video at https://youmind.com/material/\<materialId\>" |
+| ❌ No transcript available | `type` is `"video"` but `transcript` is `null`, or `transcript.contents` is empty | Tell user (in their language): "This video does not have subtitles. Transcript extraction is not supported for this video. You can still view the saved video at https://youmind.com/material/\<materialId\>" — then **stop the workflow**, do not proceed to Step 5. |
 | ⏳ Timeout | 60 seconds elapsed, `type` still `"unknown-webpage"` | Tell user: "Still processing. You can check the result later at https://youmind.com/material/\<materialId\>" |
 
 ### Step 5: Output Transcript
