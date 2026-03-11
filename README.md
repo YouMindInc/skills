@@ -7,7 +7,7 @@ AI agent skills powered by [YouMind](https://youmind.com). Extract knowledge, cr
 | Skill | Description |
 |-------|-------------|
 | [youmind](skills/youmind/) | Base CLI skill — search, inspect, and call YouMind APIs |
-| [youmind-yt-transcript](skills/youmind-yt-transcript/) | Extract YouTube video transcripts with timestamps |
+| [youmind-youtube-transcript](skills/youmind-youtube-transcript/) | Batch extract YouTube video transcripts — up to 5 at once, no yt-dlp needed |
 
 *More skills coming soon: image generation, link saving, notes, documents, slides...*
 
@@ -15,7 +15,7 @@ AI agent skills powered by [YouMind](https://youmind.com). Extract knowledge, cr
 
 ```bash
 # Install a specific skill
-npx skills add YouMind-OpenLab/skills --skill youmind-yt-transcript
+npx skills add YouMind-OpenLab/skills --skill youmind-youtube-transcript
 
 # See all available skills
 npx skills add YouMind-OpenLab/skills --list
@@ -26,7 +26,7 @@ npx skills add YouMind-OpenLab/skills --all
 
 Also available on [ClawHub](https://clawhub.ai):
 ```bash
-clawhub install youmind-yt-transcript
+clawhub install youmind-youtube-transcript
 ```
 
 ## Prerequisites

@@ -1,12 +1,14 @@
 ---
-name: youmind-yt-transcript
+name: youmind-youtube-transcript
 description: |
   Extract YouTube video transcripts and subtitles via YouMind API — no yt-dlp, no proxy, no local dependencies.
+  Batch extract up to 5 videos at once with parallel processing.
   Saves videos to your YouMind board with timestamped transcripts in markdown.
-  Supports batch mode (up to 5 videos). Works from any IP (cloud, VPS, local).
+  Works from any IP (cloud, VPS, CI/CD, corporate networks).
   Use when user wants to "get YouTube transcript", "extract video subtitles",
-  "transcribe YouTube video", "get video captions", "summarize YouTube video",
-  "YouTube 字幕", "YouTube 文字起こし", "YouTube 자막", or "download YouTube transcript".
+  "transcribe YouTube video", "batch transcribe videos", "get video captions",
+  "summarize YouTube video", "YouTube 字幕", "YouTube 文字起こし", "YouTube 자막",
+  or "download YouTube transcript".
 platforms:
   - openclaw
   - claude-code
@@ -25,9 +27,9 @@ allowed-tools:
 
 # YouTube Transcript Extractor
 
-Extract YouTube video transcripts with timestamps — no yt-dlp, no proxy, no local setup required. Videos are saved to your [YouMind](https://youmind.com) board and transcripts are output as clean markdown.
+Batch extract YouTube video transcripts with timestamps — up to 5 videos at once, no yt-dlp, no proxy, no local setup. Videos are saved to your [YouMind](https://youmind.com) board and transcripts are output as clean markdown.
 
-**Why YouMind?** Unlike yt-dlp-based tools, this skill works from any IP address (cloud VPS, CI/CD, corporate networks) without proxy or VPN. YouMind handles the extraction server-side.
+**Why YouMind?** Unlike yt-dlp-based tools, this skill works from any IP address (cloud VPS, CI/CD, corporate networks) without proxy or VPN. YouMind handles the extraction server-side. And batch mode means you can process multiple videos in one go.
 
 > [Get API Key →](https://youmind.com/settings/api-keys) · [More Skills →](https://youmind.com/skills)
 
@@ -223,11 +225,11 @@ When any `youmind call` command fails:
 
 | Feature | YouMind (this skill) | yt-dlp based | Apify based |
 |---------|---------------------|-------------|-------------|
+| **Batch processing** | ✅ Up to 5 videos at once | ❌ One at a time | Varies |
 | Works from cloud IPs | ✅ Yes | ❌ Often blocked | ✅ Yes |
 | Local dependencies | None (just npm CLI) | yt-dlp + ffmpeg | API key + Python |
 | Proxy/VPN needed | ❌ No | ✅ Usually | ❌ No |
 | Video saved to library | ✅ YouMind board | ❌ No | ❌ No |
-| Batch support | ✅ Up to 5 | Manual loop | Varies |
 | Free tier | ✅ Yes | ✅ Yes | Limited |
 
 ## References
