@@ -110,9 +110,9 @@ Extract `id` as `materialId` from the response. Build the YouMind link:
 **⚠️ STOP: Before doing ANYTHING else, send a message to the user NOW:**
 
 ```
-✅ 视频已保存到 YouMind！点击查看：<link>
+✅ Video saved to YouMind! View here: <link>
 
-正在提取字幕，通常需要 10-20 秒...
+Extracting transcript, usually takes 10-20 seconds...
 ```
 
 (Use the user's language. The above is a Chinese example.)
