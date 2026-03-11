@@ -63,6 +63,14 @@ See [references/environment.md](references/environment.md) for preview environme
 
 ## Workflow
 
+> **⚠️ MANDATORY CHECKLIST — Do NOT skip any of these:**
+> 1. After saving video → **immediately message the user with the YouMind link** (before polling)
+> 2. Polling takes time → **suggest background processing** or use subagent
+> 3. Transcript output → **send as file attachment**, never paste inline
+> 4. After transcript delivered → **ask "Would you like me to summarize?"**
+>
+> If you skip any of these, the user experience is broken.
+
 ### Step 1: Check Prerequisites
 
 1. Verify `youmind` CLI is installed: `youmind --help`
@@ -88,15 +96,20 @@ For **each** YouTube URL:
 youmind call createMaterialByUrl '{"url":"<youtube-url>","boardId":"<boardId>"}'
 ```
 
-Extract `id` as `materialId` from each response.
+Extract `id` as `materialId` from the response. Build the YouMind link:
+`https://<endpoint>/boards/<boardId>?material-id=<materialId>` (endpoint = `youmind.com` or `preview.youmind.com`). Do NOT use `/material/<id>` — that URL does not work.
 
-**YouMind link format**: `https://<endpoint>/boards/<boardId>?material-id=<materialId>` (where endpoint is `youmind.com` or `preview.youmind.com`). Do NOT use `https://youmind.com/material/<id>` — that URL does not work.
+**⚠️ STOP: Before doing ANYTHING else, send a message to the user NOW:**
 
-**⚠️ MANDATORY: Immediately send a message to the user with the YouMind link.** Do this NOW, before polling. Do not wait for the transcript to be ready. The user needs something to click on right away.
+```
+✅ 视频已保存到 YouMind！点击查看：<link>
 
-Message template (in user's language):
-- Single: "✅ Video saved to YouMind! View it here: <link>\n\nExtracting transcript — usually 10-20 seconds..."
-- Batch: "✅ N videos saved!\n• [title1]: <link1>\n• [title2]: <link2>\n\nExtracting transcripts..."
+正在提取字幕，通常需要 10-20 秒...
+```
+
+(Use the user's language. The above is a Chinese example.)
+
+Do NOT proceed to Step 4 until you have sent this message. The user needs something to click while waiting.
 
 **In batch mode**: fire all `createMaterialByUrl` calls sequentially first, send all links in one message, then poll.
 
@@ -139,7 +152,7 @@ For each successful video, run a single command that extracts all fields and wri
 ```bash
 youmind call getMaterial '{"id":"<materialId>","includeBlocks":true}' | python3 -c "
 import sys, json, re
-d = json.load(sys.stdin)
+d = json.loads(sys.stdin.read(), strict=False)  # strict=False: API response may contain control chars
 title = d.get('title', 'Untitled')
 t = d.get('transcript', {}) or {}
 c = t.get('contents', [])
@@ -181,13 +194,13 @@ In batch mode, send each transcript file as a separate attachment, then show a f
 | 3 | [title] | ❌ No subtitles | - | - |
 ```
 
-### Step 6: Offer Summary (Optional)
+### Step 6: Offer Summary
 
-After all transcripts are output, ask (in their language):
+**⚠️ MANDATORY: Do NOT end the conversation after sending the file. You MUST ask this question:**
 
-> "Would you like me to summarize the transcript(s)?"
+> "Would you like me to summarize the transcript?"
 
-If yes:
+Wait for the user's response. If yes:
 - Single video → concise summary (key points, main arguments, conclusions)
 - Batch → summarize each video separately
 - Output in the same language as the transcript, or the user's preferred language
