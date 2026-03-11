@@ -1,38 +1,44 @@
 ---
 name: youmind-yt-transcript
 description: |
-  Extract YouTube video transcripts via YouMind. Saves the video to your YouMind board,
-  extracts timestamped transcripts, and outputs structured markdown.
-  Supports batch mode (up to 5 videos at once).
+  Extract YouTube video transcripts and subtitles via YouMind API — no yt-dlp, no proxy, no local dependencies.
+  Saves videos to your YouMind board with timestamped transcripts in markdown.
+  Supports batch mode (up to 5 videos). Works from any IP (cloud, VPS, local).
   Use when user wants to "get YouTube transcript", "extract video subtitles",
-  "transcribe YouTube video", "get video captions", or "YouTube 字幕".
+  "transcribe YouTube video", "get video captions", "summarize YouTube video",
+  "YouTube 字幕", "YouTube 文字起こし", "YouTube 자막", or "download YouTube transcript".
 platforms:
   - openclaw
   - claude-code
   - cursor
   - codex
   - gemini-cli
+  - windsurf
+  - kilo
+  - opencode
+  - goose
+  - roo
 allowed-tools:
   - Bash(youmind *)
-  - Bash(YOUMIND_API_KEY=* youmind *)
-  - Bash(YOUMIND_ENV=* youmind *)
   - Bash(npm install -g @youmind-ai/cli)
 ---
 
-# YouMind YouTube Transcript
+# YouTube Transcript Extractor
 
-Extract YouTube video transcripts with timestamps. Just give a YouTube URL (or up to 5 URLs) — the video is saved to your YouMind board and the transcript is output as markdown.
+Extract YouTube video transcripts with timestamps — no yt-dlp, no proxy, no local setup required. Videos are saved to your [YouMind](https://youmind.com) board and transcripts are output as clean markdown.
 
-> Powered by [YouMind](https://youmind.com) · [Get API Key →](https://youmind.com/settings/api-keys)
+**Why YouMind?** Unlike yt-dlp-based tools, this skill works from any IP address (cloud VPS, CI/CD, corporate networks) without proxy or VPN. YouMind handles the extraction server-side.
+
+> [Get API Key →](https://youmind.com/settings/api-keys) · [More Skills →](https://youmind.com/skills)
 
 ## Usage
 
-The user provides one or more YouTube URLs. That's it.
+Provide one or more YouTube URLs. That's it.
 
 **Single video:**
 > Get the transcript for https://www.youtube.com/watch?v=dQw4w9WgXcQ
 
-**Batch mode (up to 5):**
+**Batch mode (up to 5 videos):**
 > Extract transcripts:
 > https://www.youtube.com/watch?v=abc
 > https://www.youtube.com/watch?v=def
@@ -43,19 +49,17 @@ Accepted URL formats:
 - `https://youtu.be/VIDEO_ID`
 - `https://youtube.com/watch?v=VIDEO_ID`
 
-If the user provides more than 5 URLs, process the first 5 and tell the user (in their language): "Processing the first 5 videos. Please submit the remaining ones in a follow-up message."
+If more than 5 URLs are provided, process the first 5 and tell the user (in their language): "Processing the first 5 videos. Please submit the remaining ones in a follow-up message."
 
 ## Installation
 
-Install the YouMind CLI:
+Install the YouMind CLI (lightweight, zero dependencies):
 
 ```bash
 npm install -g @youmind-ai/cli
 ```
 
 Verify: `youmind --help`
-
-If not found, install it first before proceeding.
 
 ## Authentication
 
@@ -65,7 +69,7 @@ Set your YouMind API key:
 export YOUMIND_API_KEY=sk-ym-xxx
 ```
 
-No API key? Get one at **https://youmind.com/settings/api-keys**
+No API key? Get one free at **https://youmind.com/settings/api-keys**
 
 ### Preview Environment (developers only)
 
@@ -81,7 +85,7 @@ export YOUMIND_API_KEY_PREVIEW=sk-ym-xxx
 | *(unset or `production`)* | `https://youmind.com` | `YOUMIND_API_KEY` |
 | `preview` | `https://preview.youmind.com` | `YOUMIND_API_KEY_PREVIEW` |
 
-When preview is active, **all** `youmind call` commands must append:
+When preview is active, append to all `youmind call` commands:
 ```bash
 --endpoint https://preview.youmind.com --api-key $YOUMIND_API_KEY_PREVIEW
 ```
@@ -103,11 +107,11 @@ When preview is active, **all** `youmind call` commands must append:
 youmind call getDefaultBoard
 ```
 
-Extract `id` as `boardId`. This only needs to be called **once**, even in batch mode.
+Extract `id` as `boardId`. Call this **once**, even in batch mode.
 
 ### Step 3: Create Materials
 
-For **each** YouTube URL, create a material:
+For **each** YouTube URL:
 
 ```bash
 youmind call createMaterialByUrl '{"url":"<youtube-url>","boardId":"<boardId>"}'
@@ -115,9 +119,9 @@ youmind call createMaterialByUrl '{"url":"<youtube-url>","boardId":"<boardId>"}'
 
 Extract `id` as `materialId` from each response.
 
-**In batch mode**: fire all `createMaterialByUrl` calls first (sequentially), then proceed to polling all of them. Do not wait for one to finish before creating the next.
+**In batch mode**: fire all `createMaterialByUrl` calls sequentially first, then poll all of them together. Do not wait for one to finish before creating the next.
 
-Show the user (in their language):
+Tell the user (in their language):
 - Single: "Video saved to YouMind. Extracting transcript — usually takes 10-20 seconds..."
 - Batch: "N videos saved to YouMind. Extracting transcripts — usually takes 10-20 seconds per video..."
 
@@ -134,7 +138,7 @@ youmind call getMaterial '{"id":"<materialId>","includeBlocks":true}'
 - **Timeout: 60 seconds** per video
 - Response transitions: `type: "unknown-webpage"` → `type: "video"` (processing done)
 
-**In batch mode**: poll all materials in a round-robin loop. Each iteration, check all pending materials. Remove from the pending list once resolved (success, no-transcript, or timeout).
+**In batch mode**: poll all materials in a round-robin loop. Each iteration, check all pending materials. Remove from the pending list once resolved.
 
 Once `type` is `"video"`, inspect the `transcript` field:
 
@@ -195,7 +199,7 @@ After all transcripts are output, ask (in their language):
 > "Would you like me to summarize the transcript(s)?"
 
 If yes:
-- Single video → generate a concise summary (key points, main arguments, conclusions)
+- Single video → concise summary (key points, main arguments, conclusions)
 - Batch → summarize each video separately
 - Output in the same language as the transcript, or the user's preferred language
 
@@ -215,8 +219,19 @@ When any `youmind call` command fails:
 | CLI not installed | Install the YouMind CLI first: `npm install -g @youmind-ai/cli` |
 | API key missing | Set your API key: `export YOUMIND_API_KEY=sk-ym-xxx` — get one at https://youmind.com/settings/api-keys |
 
+## Comparison with Other Approaches
+
+| Feature | YouMind (this skill) | yt-dlp based | Apify based |
+|---------|---------------------|-------------|-------------|
+| Works from cloud IPs | ✅ Yes | ❌ Often blocked | ✅ Yes |
+| Local dependencies | None (just npm CLI) | yt-dlp + ffmpeg | API key + Python |
+| Proxy/VPN needed | ❌ No | ✅ Usually | ❌ No |
+| Video saved to library | ✅ YouMind board | ❌ No | ❌ No |
+| Batch support | ✅ Up to 5 | Manual loop | Varies |
+| Free tier | ✅ Yes | ✅ Yes | Limited |
+
 ## References
 
 - YouMind API: `youmind search` / `youmind info <api>`
-- YouMind Skills: https://youmind.com/skills
+- YouMind Skills gallery: https://youmind.com/skills
 - Publishing: [shared/PUBLISHING.md](../../shared/PUBLISHING.md)
