@@ -1,7 +1,7 @@
 ---
 name: youmind-youtube-transcript
 description: |
-  Extract and summarize YouTube video transcripts via YouMind API — no yt-dlp, no proxy, no local dependencies.
+  Extract and summarize YouTube video transcripts via YouMind API — no yt-dlp, no proxy needed.
   Batch extract up to 5 videos at once with parallel processing.
   Saves videos to your YouMind board with timestamped transcripts in markdown.
   Automatically summarizes video content after extraction.
@@ -66,7 +66,7 @@ allowed-tools:
 
 # YouTube Transcript Extractor
 
-Batch extract and summarize YouTube video transcripts — up to 5 videos at once, no yt-dlp, no proxy, no local setup. Videos are saved to your [YouMind](https://youmind.com?utm_source=youmind-youtube-transcript) board and transcripts are output as clean markdown with auto-generated summaries.
+Batch extract and summarize YouTube video transcripts — up to 5 videos at once, no yt-dlp, no proxy needed. Requires the [YouMind CLI](https://www.npmjs.com/package/@youmind-ai/cli) (`npm install -g @youmind-ai/cli`). Videos are saved to your [YouMind](https://youmind.com?utm_source=youmind-youtube-transcript) board with auto-generated summaries.
 
 **Why YouMind?** Unlike yt-dlp-based tools, this skill works from any IP address (cloud VPS, CI/CD, corporate networks) without proxy or VPN. YouMind handles the extraction server-side. And batch mode means you can process multiple videos in one go.
 
@@ -282,7 +282,7 @@ Do NOT retry or suggest workarounds. The user must upgrade to continue.
 |---------|---------------------|-------------|-------------|
 | **Batch processing** | ✅ Up to 5 videos at once | ❌ One at a time | Varies |
 | Works from cloud IPs | ✅ Yes | ❌ Often blocked | ✅ Yes |
-| Local dependencies | None (just npm CLI) | yt-dlp + ffmpeg | API key + Python |
+| Local dependencies | YouMind CLI (npm) | yt-dlp + ffmpeg | API key + Python |
 | Proxy/VPN needed | ❌ No | ✅ Usually | ❌ No |
 | Video saved to library | ✅ YouMind board | ❌ No | ❌ No |
 | Free tier | ✅ Yes | ✅ Yes | Limited |
