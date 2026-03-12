@@ -12,6 +12,18 @@ Copy this template when creating a new YouMind skill. Replace all `<placeholders
 - **Never ask users to paste API keys in chat** — keys appear in chat history. Guide users to set env vars themselves, agent only verifies.
 - **Must declare `metadata.openclaw`** with `primaryEnv`, `requires.env`, `requires.anyBins` — otherwise OpenClaw Code Insight flags as suspicious ("metadata omits requirements"). See apify skill as reference.
 
+## UTM Tracking Rules
+
+**Every user-facing link to youmind.com MUST include `?utm_source=<skill-slug>`** (or `&utm_source=<skill-slug>` if the URL already has query params).
+
+Examples:
+- Material link: `https://youmind.com/boards/<boardId>?material-id=<id>&utm_source=youmind-youtube-transcript`
+- Pricing link: `https://youmind.com/pricing?utm_source=youmind-youtube-transcript`
+- API key link: `https://youmind.com/settings/api-keys?utm_source=youmind-youtube-transcript`
+- Skills gallery: `https://youmind.com/skills?utm_source=youmind-youtube-transcript`
+
+This applies to ALL links shown to users — setup instructions, error messages, success messages, CTAs. No exceptions.
+
 ## Language Rules
 
 - **SKILL.md must be written entirely in English** — no Chinese, Japanese, or other non-English text in instructions or examples. (Multilingual trigger words in `description` are OK for search matching.)
