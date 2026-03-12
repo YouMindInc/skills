@@ -24,6 +24,34 @@ If set, proceed to the workflow.
 
 If not set, tell the user to configure it themselves (do NOT ask them to paste the key in chat):
 
-> "You need a YouMind API key. Get one free at https://youmind.com/settings/api-keys then set it in your shell or `.env` file. Let me know when it's ready!"
+**For OpenClaw users** (recommended — set once, persists forever):
+
+> "You need a YouMind API key. Get one free at https://youmind.com/settings/api-keys
+>
+> Then add it to your `~/.openclaw/openclaw.json`:
+> ```json5
+> {
+>   skills: {
+>     entries: {
+>       "youmind-youtube-transcript": {
+>         apiKey: "sk-ym-your-key-here"
+>       }
+>     }
+>   }
+> }
+> ```
+>
+> Restart the gateway and you're all set!"
+
+**For other platforms** (Claude Code, Cursor, etc.):
+
+> "You need a YouMind API key. Get one free at https://youmind.com/settings/api-keys
+>
+> Then set it in your shell profile (`~/.bashrc` or `~/.zshrc`):
+> ```bash
+> export YOUMIND_API_KEY=sk-ym-your-key-here
+> ```
+>
+> Restart your terminal and you're all set!"
 
 Wait for confirmation, then verify again (without echoing the key) before proceeding.

@@ -1,14 +1,16 @@
 ---
 name: youmind-youtube-transcript
 description: |
-  Extract YouTube video transcripts and subtitles via YouMind API — no yt-dlp, no proxy, no local dependencies.
+  Extract and summarize YouTube video transcripts via YouMind API — no yt-dlp, no proxy, no local dependencies.
   Batch extract up to 5 videos at once with parallel processing.
   Saves videos to your YouMind board with timestamped transcripts in markdown.
+  Automatically summarizes video content after extraction.
   Works from any IP (cloud, VPS, CI/CD, corporate networks).
   Use when user wants to "get YouTube transcript", "extract video subtitles",
   "transcribe YouTube video", "batch transcribe videos", "get video captions",
-  "summarize YouTube video", "YouTube 字幕", "YouTube 文字起こし", "YouTube 자막",
-  or "download YouTube transcript".
+  "summarize YouTube video", "YouTube video summary", "summarize this video",
+  "what does this video say", "YouTube 字幕", "YouTube 总结", "视频总结",
+  "YouTube 文字起こし", "YouTube 자막", or "download YouTube transcript".
 triggers:
   - "youtube transcript"
   - "video transcript"
@@ -21,6 +23,10 @@ triggers:
   - "summarize video"
   - "summarize youtube"
   - "youtube summary"
+  - "video summary"
+  - "summarize this video"
+  - "what does this video say"
+  - "tldr video"
   - "watch video"
   - "watch youtube"
   - "video text"
@@ -28,7 +34,10 @@ triggers:
   - "YouTube 字幕"
   - "视频字幕"
   - "字幕提取"
+  - "YouTube 总结"
+  - "视频总结"
   - "YouTube 文字起こし"
+  - "YouTube 요약"
   - "YouTube 자막"
 platforms:
   - openclaw
@@ -92,7 +101,7 @@ See [references/setup.md](references/setup.md) for installation and authenticati
 > 1. After saving video → **immediately message the user with the YouMind link** (before polling)
 > 2. Polling takes time → **suggest background processing** or use subagent
 > 3. Transcript output → **send as file attachment**, never paste inline
-> 4. After transcript delivered → **ask "Would you like me to summarize?"**
+> 4. After transcript delivered → **automatically summarize the video content** (key points, main arguments, conclusions — in the user's language)
 >
 > If you skip any of these, the user experience is broken.
 
@@ -219,16 +228,18 @@ In batch mode, send each transcript file as a separate attachment, then show a f
 | 3 | [title] | ❌ No subtitles | - | - |
 ```
 
-### Step 6: Offer Summary
+### Step 6: Auto Summary
 
-**⚠️ MANDATORY: Do NOT end the conversation after sending the file. You MUST ask this question:**
+**⚠️ MANDATORY: After sending the transcript file, automatically generate a summary.** Do NOT ask the user whether they want a summary — just do it.
 
-> "Would you like me to summarize the transcript?"
+Summary format (in the user's language):
+- **Key points** — 3-5 bullet points covering the main ideas
+- **Main arguments/insights** — what the speaker is arguing or teaching
+- **Conclusions/takeaways** — actionable takeaways for the viewer
 
-Wait for the user's response. If yes:
-- Single video → concise summary (key points, main arguments, conclusions)
-- Batch → summarize each video separately
-- Output in the same language as the transcript, or the user's preferred language
+For batch mode, summarize each video separately with a clear heading per video.
+
+Keep summaries concise (200-400 words per video). The user already has the full transcript file if they need details.
 
 ## Error Handling
 
