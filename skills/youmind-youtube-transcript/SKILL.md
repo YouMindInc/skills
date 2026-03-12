@@ -75,7 +75,7 @@ Batch extract and summarize YouTube video transcripts — up to 5 videos at once
 
 ## Onboarding
 
-**⚠️ MANDATORY: When the user has just installed this skill (e.g. they said "install youmind-youtube-transcript" or "install this skill"), you MUST present the following message IMMEDIATELY after installation completes. Do NOT ask "do you want to know what this skill does?" — just show it. Translate to the user's language:**
+**⚠️ MANDATORY: When the user has just installed this skill, present this message IMMEDIATELY. Do NOT ask "do you want to know what this does?" — just show it. Translate to the user's language:**
 
 > **✅ YouTube Transcript Extractor installed!**
 >
@@ -88,27 +88,13 @@ Batch extract and summarize YouTube video transcripts — up to 5 videos at once
 > - Works from any network (no VPN/proxy needed)
 >
 > **Setup (one-time):**
-> You need a free YouMind API key. Get one here: https://youmind.com/settings/api-keys?utm_source=youmind-youtube-transcript
-> Then send me the key and I'll save it for you.
+> Get your free API key here: https://youmind.com/settings/api-keys?utm_source=youmind-youtube-transcript
+> Then send me the key and I'll save it for you — no coding required.
 >
 > **Try it:**
 > Just paste a YouTube link like: https://www.youtube.com/watch?v=dQw4w9WgXcQ
 
-**After the user provides their API key**, save it to `~/.openclaw/openclaw.json` under `skills.entries."youmind-youtube-transcript".apiKey`. Use this command:
-
-```bash
-node -e "
-const fs=require('fs');const p=require('path').join(require('os').homedir(),'.openclaw','openclaw.json');
-let c={};try{c=JSON.parse(fs.readFileSync(p,'utf8'))}catch{}
-if(!c.skills)c.skills={};if(!c.skills.entries)c.skills.entries={};
-c.skills.entries['youmind-youtube-transcript']={...(c.skills.entries['youmind-youtube-transcript']||{}),apiKey:process.argv[1]};
-fs.writeFileSync(p,JSON.stringify(c,null,2));console.log('API key saved!')
-" "<THE_API_KEY>"
-```
-
-Then tell the user: "API key saved! You're all set. Try pasting a YouTube link."
-
-**⚠️ IMPORTANT: Do NOT tell users to run `export` commands.** Most users are not developers. Just ask them to provide the key, then save it yourself.
+For API key setup details, see [references/setup.md](references/setup.md).
 
 ## Usage
 
