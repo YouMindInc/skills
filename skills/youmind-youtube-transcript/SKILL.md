@@ -86,10 +86,6 @@ If more than 5 URLs are provided, process the first 5 and tell the user (in thei
 
 See [references/setup.md](references/setup.md) for installation and authentication instructions.
 
-## Environment Configuration
-
-See [references/environment.md](references/environment.md) for preview environment and endpoint detection.
-
 ## Workflow
 
 > **⚠️ MANDATORY CHECKLIST — Do NOT skip any of these:**
@@ -104,7 +100,7 @@ See [references/environment.md](references/environment.md) for preview environme
 
 1. Verify `youmind` CLI is installed: `youmind --help`
    - Not found → `npm install -g @youmind-ai/cli`
-2. Verify API key is set (check `YOUMIND_ENV` to pick the right variable)
+2. Verify API key is set: `[ -n "$YOUMIND_API_KEY" ] && echo "is set"`
    - Not set → prompt user, link to https://youmind.com/settings/api-keys?utm_source=youmind-youtube-transcript
 3. Validate all inputs are YouTube URLs (must contain `youtube.com/watch` or `youtu.be/`)
    - Invalid URL → skip it, tell user which URLs were skipped and why
@@ -126,7 +122,7 @@ youmind call createMaterialByUrl '{"url":"<youtube-url>","boardId":"<boardId>"}'
 ```
 
 Extract `id` as `materialId` from the response. Build the YouMind link:
-`https://<endpoint>/boards/<boardId>?material-id=<materialId>&utm_source=youmind-youtube-transcript` (endpoint = `youmind.com` or `preview.youmind.com`). Do NOT use `/material/<id>` — that URL does not work.
+`https://youmind.com/boards/<boardId>?material-id=<materialId>&utm_source=youmind-youtube-transcript`. Do NOT use `/material/<id>` — that URL does not work.
 
 **⚠️ STOP: Before doing ANYTHING else, send a message to the user NOW:**
 
@@ -192,7 +188,7 @@ board_id = (d.get('boardIds') or [''])[0]
 material_id = d.get('id', '')
 slug = re.sub(r'[^\w\s-]', '', title).strip().replace(' ', '-')[:60].rstrip('-').lower()
 filename = f'transcript-{slug}.md' if slug else 'transcript.md'
-endpoint = 'youmind.com'  # change to preview.youmind.com for preview env
+endpoint = 'youmind.com'
 link = f'https://{endpoint}/boards/{board_id}?material-id={material_id}&utm_source=youmind-youtube-transcript'
 md = f'# {title}\n\n- **Source**: <YOUTUBE_URL>\n- **Language**: {lang}\n- **YouMind**: {link}\n\n---\n\n## Transcript\n\n{plain}\n'
 with open(filename, 'w') as f:
@@ -205,7 +201,7 @@ print(f'YouMind: {link}')
 "
 ```
 
-Replace `<YOUTUBE_URL>` with the actual URL before running. For preview environment, change `endpoint` to `preview.youmind.com`.
+Replace `<YOUTUBE_URL>` with the actual URL before running.
 
 This command does everything in one step: parse JSON, extract fields, format markdown, write file, and print summary.
 
