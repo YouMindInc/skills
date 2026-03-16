@@ -113,7 +113,7 @@ Extract `id` as `boardId`.
 ### Step 3: Create Webpage Generation Chat
 
 ```bash
-youmind call createChat '{"boardId":"<boardId>","message":"<webpage description>","tools":["generateWebpage"]}'
+youmind call createChat '{"boardId":"<boardId>","message":"<webpage description>","tools":{"generateWebpage":{"useTool":"required"}}}'
 ```
 
 Extract `id` as `chatId` from the response.

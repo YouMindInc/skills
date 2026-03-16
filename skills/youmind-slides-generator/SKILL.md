@@ -117,7 +117,7 @@ Extract `id` as `boardId`.
 ### Step 3: Create Slides Generation Chat
 
 ```bash
-youmind call createChat '{"boardId":"<boardId>","message":"<topic/outline>","tools":["slidesGenerate"]}'
+youmind call createChat '{"boardId":"<boardId>","message":"<topic/outline>","tools":{"slidesGenerate":{"useTool":"required"}}}'
 ```
 
 Extract `id` as `chatId` from the response.

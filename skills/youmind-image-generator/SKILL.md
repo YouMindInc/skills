@@ -113,7 +113,7 @@ Extract `id` as `boardId`.
 ### Step 3: Create Image Generation Chat
 
 ```bash
-youmind call createChat '{"boardId":"<boardId>","message":"<prompt>","tools":["imageGenerate"]}'
+youmind call createChat '{"boardId":"<boardId>","message":"<prompt>","tools":{"imageGenerate":{"useTool":"required"}}}'
 ```
 
 Extract `id` as `chatId` from the response.

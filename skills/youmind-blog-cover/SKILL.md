@@ -121,7 +121,7 @@ Create a professional blog cover image for an article about [topic/title]. Style
 Adapt the prompt based on the user's input — if they mention a specific style, incorporate it.
 
 ```bash
-youmind call createChat '{"boardId":"<boardId>","message":"<optimized-prompt>","tools":["imageGenerate"]}'
+youmind call createChat '{"boardId":"<boardId>","message":"<optimized-prompt>","tools":{"imageGenerate":{"useTool":"required"}}}'
 ```
 
 Extract `id` as `chatId` from the response.

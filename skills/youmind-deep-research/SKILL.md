@@ -115,7 +115,7 @@ Extract `id` as `boardId`.
 ### Step 3: Create Research Chat
 
 ```bash
-youmind call createChat '{"boardId":"<boardId>","message":"<research question>","tools":["research"]}'
+youmind call createChat '{"boardId":"<boardId>","message":"<research question>","tools":{"research":{"useTool":"required"}}}'
 ```
 
 Extract `id` as `chatId` from the response.
