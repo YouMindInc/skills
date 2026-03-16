@@ -1,9 +1,7 @@
 ---
-name: youmind-save-link
+name: youmind-web-clipper
 description: |
-  Save any URL to your YouMind board — instant web clipper with one command.
-  Supports any webpage, article, video, or document link.
-  Use when user wants to "save link", "bookmark", "clip", "web clipper", "save URL",
+  Save any URL to your YouMind board with one command — instant web clipper for articles, videos, and documents. Works from terminal, CI/CD, and any agent platform. Use when user wants to "save link", "bookmark", "clip", "web clipper", "save URL",
   "save page", "保存链接", "收藏网页", "ブックマーク", "링크 저장".
 triggers:
   - "save link"
@@ -49,9 +47,9 @@ allowed-tools:
 
 # Save Link & Web Clipper
 
-Save any URL to your [YouMind](https://youmind.com?utm_source=youmind-save-link) board with one command. Articles, videos, documents — anything with a URL gets saved and organized in your personal knowledge base. Requires the [YouMind CLI](https://www.npmjs.com/package/@youmind-ai/cli) (`npm install -g @youmind-ai/cli`).
+Save any URL to your [YouMind](https://youmind.com?utm_source=youmind-web-clipper) board with one command. Articles, videos, documents — anything with a URL gets saved and organized in your personal knowledge base. Requires the [YouMind CLI](https://www.npmjs.com/package/@youmind-ai/cli) (`npm install -g @youmind-ai/cli`).
 
-> [Get API Key →](https://youmind.com/settings/api-keys?utm_source=youmind-save-link) · [More Skills →](https://youmind.com/skills?utm_source=youmind-save-link)
+> [Get API Key →](https://youmind.com/settings/api-keys?utm_source=youmind-web-clipper) · [More Skills →](https://youmind.com/skills?utm_source=youmind-web-clipper)
 
 ## Onboarding
 
@@ -67,7 +65,7 @@ Save any URL to your [YouMind](https://youmind.com?utm_source=youmind-save-link)
 > - Access saved content anytime from your YouMind board
 >
 > **Setup (one-time):**
-> 1. Get your free API key: https://youmind.com/settings/api-keys?utm_source=youmind-save-link
+> 1. Get your free API key: https://youmind.com/settings/api-keys?utm_source=youmind-web-clipper
 > 2. Add it to your OpenClaw config (`~/.openclaw/openclaw.json`) — see setup guide for details.
 >
 > **Try it:**
@@ -98,7 +96,7 @@ See [references/setup.md](references/setup.md) for installation and authenticati
 1. Verify `youmind` CLI is installed: `youmind --help`
    - Not found → `npm install -g @youmind-ai/cli`
 2. Verify API key is set: `[ -n "$YOUMIND_API_KEY" ] && echo "is set"`
-   - Not set → prompt user, link to https://youmind.com/settings/api-keys?utm_source=youmind-save-link
+   - Not set → prompt user, link to https://youmind.com/settings/api-keys?utm_source=youmind-web-clipper
 3. Validate input is a URL (must start with `http://` or `https://`)
    - Invalid → tell user: "Please provide a valid URL starting with http:// or https://"
 
@@ -117,7 +115,7 @@ youmind call createMaterialByUrl '{"url":"<URL>","boardId":"<boardId>"}'
 ```
 
 Extract `id` as `materialId` from the response. Build the YouMind link:
-`https://youmind.com/boards/<boardId>?material-id=<materialId>&utm_source=youmind-save-link`
+`https://youmind.com/boards/<boardId>?material-id=<materialId>&utm_source=youmind-web-clipper`
 
 **⚠️ MANDATORY: Immediately send the user a message with the link:**
 
@@ -129,6 +127,12 @@ Extract `id` as `materialId` from the response. Build the YouMind link:
 
 That's it — save, show link, done. No polling required.
 
+### Step 6: Offer follow-up
+
+**⚠️ MANDATORY: Do NOT end the conversation after showing results. You MUST ask this question:**
+
+> "Would you like me to summarize the saved page?"
+
 ## Error Handling
 
 See [references/error-handling.md](references/error-handling.md) for common error handling rules.
@@ -139,7 +143,7 @@ When you receive a 402 error (codes: `InsufficientCreditsException`, `QuotaExcee
 
 > You've reached your free plan limit. Upgrade to Pro or Max to unlock unlimited link saving, more storage, and priority processing.
 >
-> **Upgrade now:** https://youmind.com/pricing?utm_source=youmind-save-link
+> **Upgrade now:** https://youmind.com/pricing?utm_source=youmind-web-clipper
 
 Do NOT retry or suggest workarounds. The user must upgrade to continue.
 
@@ -163,5 +167,5 @@ Do NOT retry or suggest workarounds. The user must upgrade to continue.
 ## References
 
 - YouMind API: `youmind search` / `youmind info <api>`
-- YouMind Skills gallery: https://youmind.com/skills?utm_source=youmind-save-link
+- YouMind Skills gallery: https://youmind.com/skills?utm_source=youmind-web-clipper
 - Publishing: [shared/PUBLISHING.md](../../shared/PUBLISHING.md)
